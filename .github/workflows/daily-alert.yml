@@ -1,0 +1,14 @@
+name: Daily NSE swing alert
+
+on:
+  schedule:
+    - cron: "0 13 * * 1-5"
+  workflow_dispatch: {}
+
+jobs:
+  trigger-alert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the daily alert endpoint
+        run: |
+          curl -sf "https://nse-swing-dashboard.onrender.com/api/cron/daily-alert?secret=${{ secrets.CRON_SECRET }}"
