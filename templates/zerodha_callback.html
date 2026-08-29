@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zerodha Login - NSE Swing Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <style>
+      .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+      .login-card{max-width:520px;width:100%;border:1px solid var(--line);border-radius:8px;background:linear-gradient(155deg,#121b22,#0f161d);padding:32px}
+      .login-card h1{font:600 20px var(--mono);margin:0 0 6px;letter-spacing:.2px}
+      .login-card p{color:#9fb0ac;font-size:13px;line-height:1.6;margin:0 0 20px}
+      .token-box{background:#0c1217;border:1px solid var(--line);border-radius:6px;padding:16px;font:12px var(--mono);color:var(--green);word-break:break-all;margin-bottom:18px;user-select:all}
+      .error-box{background:var(--red-bg);border:1px solid #793a36;border-radius:6px;padding:16px;font-size:13px;color:#f2b3ae;margin-bottom:18px}
+      .steps{font-size:12.5px;color:#c3cdcb;line-height:1.9;padding-left:18px;margin:0 0 20px}
+      .copy-btn{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 18px;border:1px solid #2d5947;border-radius:5px;background:#163429;color:#a1edc2;font:12px var(--sans);font-weight:700;cursor:pointer}
+      .copy-btn:hover{background:#224a3a}
+      .back-link{display:block;margin-top:20px;color:#6a9680;font:11px var(--mono);text-decoration:none}
+    </style>
+  </head>
+  <body>
+    <div class="login-wrap">
+      <div class="login-card">
+        {% if access_token %}
+          <h1>✅ Logged in - here's today's token</h1>
+          <p>Copy this and send it to whoever manages the dashboard's Render settings. It goes in the <b>ZERODHA_ACCESS_TOKEN</b> environment variable. It stops working tomorrow morning, so this has to be done again daily.</p>
+          <div class="token-box" id="tokenBox">{{ access_token }}</div>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('tokenBox').textContent.trim())">Copy token</button>
+        {% else %}
+          <h1>⚠️ Login didn't complete</h1>
+          <div class="error-box">{{ error }}</div>
+          <ol class="steps">
+            <li>Make sure the Kite Connect app's Redirect URL is set to this dashboard's <code>/zerodha/callback</code> address.</li>
+            <li>Try the login link again.</li>
+          </ol>
+        {% endif %}
+        <a class="back-link" href="/">← Back to dashboard</a>
+      </div>
+    </div>
+  </body>
+</html>
